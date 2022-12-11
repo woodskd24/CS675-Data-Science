@@ -1,0 +1,33 @@
+---
+title: "Project3_Final_675"
+author: "Kelsey Woods"
+date: "12/11/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, RStudio}
+library(readr)
+library(prophet)
+library(dplyr)
+#install.packages("cli")
+library(cli)
+library(ggplot2)
+
+df <- read_csv("C:/Users/Kelsey/Downloads/ProphetEnergy.csv")
+
+summary(df)
+
+m <- prophet(df)
+
+future <- make_future_dataframe(m, periods = 365)
+tail(future)
+
+forecast <- predict(m, future)
+tail(forecast[c('ds', 'yhat', 'yhat_lower', 'yhat_upper')])
+
+plot(m, forecast)
+```
